@@ -11,6 +11,7 @@ import org.sy.fiar.bean.User;
 import org.sy.fiar.mapper.RolesUserMapper;
 import org.sy.fiar.mapper.UserMapper;
 import org.sy.fiar.pub.constants.UserConstant;
+import org.sy.fiar.pub.utils.ContextUtil;
 
 /**
  * 用户Service
@@ -64,5 +65,9 @@ public class UserService implements UserDetailsService {
         }
 
         return UserConstant.RegisterResult.FAILED;
+    }
+
+    public int updateUserEmail(String email) {
+        return userMapper.updateUserEmail(email, ContextUtil.getCurrentUser().getId());
     }
 }

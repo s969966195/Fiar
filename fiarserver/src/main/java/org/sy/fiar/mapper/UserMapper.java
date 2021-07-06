@@ -1,6 +1,5 @@
 package org.sy.fiar.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.sy.fiar.bean.User;
 
@@ -15,5 +14,7 @@ public interface UserMapper {
     User loadUserByUsername(@Param("username") String username);
 
     long register(User user);
+
+    int updateUserEmail(@Param("email") String email, @Param("id") Long id);
 
 }
