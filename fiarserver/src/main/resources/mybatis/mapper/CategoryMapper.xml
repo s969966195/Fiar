@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.sang.mapper.CategoryMapper">
-    <select id="getAllCategories" resultType="org.sang.bean.Category">
+<mapper namespace="org.sy.fiar.mapper.CategoryMapper">
+    <select id="getAllCategories" resultType="org.sy.fiar.bean.Category">
         SELECT * FROM category
     </select>
 
@@ -14,11 +14,11 @@
         </foreach>
     </delete>
 
-    <update id="updateCategoryById" parameterType="org.sang.bean.Category">
+    <update id="updateCategoryById" parameterType="org.sy.fiar.bean.Category">
         UPDATE category SET cateName=#{cateName} WHERE id=#{id}
     </update>
 
-    <insert id="addCategory" parameterType="org.sang.bean.Category">
+    <insert id="addCategory" parameterType="org.sy.fiar.bean.Category">
         INSERT INTO category SET date=#{date},cateName=#{cateName}
     </insert>
 </mapper>

@@ -11,13 +11,24 @@ public interface UserConstant {
     /**
      * 注册结果
      */
-    public static class RegisterResult {
+    class RegisterResult {
 
         public static final int SUCCESS = 0;
 
         public static final int DUPLICATE_USERNAME = 1;
 
         public static final int FAILED = 2;
+
+    }
+
+    /**
+     * 登录结果
+     */
+    class LoginResult {
+
+        public static final int SUCCESS = 0;
+
+        public static final int FAILED = 1;
 
     }
 

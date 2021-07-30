@@ -1,6 +1,8 @@
 package org.sy.fiar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.sy.fiar.bean.Category;
 import org.sy.fiar.mapper.CategoryMapper;
 
@@ -13,6 +15,8 @@ import java.util.List;
  * @author SY
  * @since 2021/7/7 23:26
  */
+@Service
+@Transactional
 public class CategoryService {
 
     @Autowired

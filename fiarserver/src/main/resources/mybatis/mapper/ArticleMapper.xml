@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.sang.mapper.ArticleMapper">
+<mapper namespace="org.sy.fiar.mapper.ArticleMapper">
 
-    <resultMap id="BaseResultMap" type="org.sang.bean.Article">
+    <resultMap id="BaseResultMap" type="org.sy.fiar.bean.Article">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
         <result column="cid" property="cid"/>
@@ -18,13 +18,13 @@
         <result column="summary" property="summary"/>
         <result column="nickname" property="nickname"/>
         <result column="cateName" property="cateName"/>
-        <collection property="tags" ofType="org.sang.bean.Tags" column="tagName">
+        <collection property="tags" ofType="org.sy.fiar.bean.Tags" column="tagName">
             <id property="id" column="tid"/>
             <result property="tagName" column="tagName"/>
         </collection>
     </resultMap>
 
-    <select id="getArticleByState" resultType="org.sang.bean.Article">
+    <select id="getArticleByState" resultType="org.sy.fiar.bean.Article">
         SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM article a,user
         u,category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id`
         <if test="state!=-2">
@@ -71,16 +71,16 @@
         </foreach>
     </update>
 
-    <select id="getAllRole" resultType="org.sang.bean.Role">
+    <select id="getAllRole" resultType="org.sy.fiar.bean.Role">
         SELECT * FROM roles;
     </select>
 
-    <insert id="addNewArticle" parameterType="org.sang.bean.Article" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addNewArticle" parameterType="org.sy.fiar.bean.Article" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article
         SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},uid=#{uid},publishDate=#{publishDate},state=#{state},editTime=#{editTime}
     </insert>
 
-    <update id="updateArticle" parameterType="org.sang.bean.Article">
+    <update id="updateArticle" parameterType="org.sy.fiar.bean.Article">
         UPDATE article SET
         title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},editTime=#{editTime}
         <if test="state==1">
