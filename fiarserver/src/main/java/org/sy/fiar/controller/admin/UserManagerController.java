@@ -22,8 +22,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class UserManagerController {
 
-    @Autowired
-    UserService userService;
+    @Autowired UserService userService;
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public List<User> getUserByNickname(String nickname) {
@@ -66,5 +65,4 @@ public class UserManagerController {
             return new RespBean("error", "更新失败!");
         }
     }
-
 }

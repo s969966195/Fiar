@@ -1,4 +1,4 @@
-package org.sy.fiar.controller;
+package org.sy.fiar.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +21,7 @@ import java.util.List;
 @RequestMapping("/admin/category")
 public class CategoryController {
 
-    @Autowired
-    CategoryService categoryService;
+    @Autowired CategoryService categoryService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> getAllCategories() {
@@ -61,5 +60,4 @@ public class CategoryController {
         }
         return new RespBean("error", "修改失败!");
     }
-
 }

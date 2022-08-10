@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@MapperScan("org.sy.fiar.mapper")
+@MapperScan("org.sy.fiar.dao")
 public class FiarApplication {
 
 	public static void main(String[] args) {

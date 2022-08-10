@@ -23,12 +23,13 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    ArticleService articleService;
+    @Autowired ArticleService articleService;
 
     @RequestMapping(value = "/article/all", method = RequestMethod.GET)
-    public Map<String, Object> getArticleByStateByAdmin(@RequestParam(value = "page", defaultValue = "1") Integer page,
-        @RequestParam(value = "count", defaultValue = "6") Integer count, String keywords) {
+    public Map<String, Object> getArticleByStateByAdmin(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "count", defaultValue = "6") Integer count,
+            String keywords) {
         List<Article> articles = articleService.getArticleByState(-2, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("articles", articles);
@@ -43,5 +44,4 @@ public class AdminController {
         }
         return new RespBean("error", "删除失败!");
     }
-
 }

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sy.fiar.bean.Role;
 import org.sy.fiar.bean.User;
-import org.sy.fiar.mapper.RolesUserMapper;
-import org.sy.fiar.mapper.UserMapper;
+import org.sy.fiar.dao.RolesUserMapper;
+import org.sy.fiar.dao.UserMapper;
 import org.sy.fiar.pub.constants.UserConstant;
 import org.sy.fiar.pub.utils.ContextUtil;
 
@@ -26,33 +26,28 @@ import java.util.List;
 @Transactional
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    UserMapper userMapper;
+    @Autowired UserMapper userMapper;
 
-    @Autowired
-    RolesUserMapper rolesUserMapper;
+    @Autowired RolesUserMapper rolesUserMapper;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userMapper.loadUserByUsername(s);
         if (user == null) {
-            //避免返回null，这里返回一个不含有任何值的User对象，在后期的密码比对过程中一样会验证失败
+            // 避免返回null，这里返回一个不含有任何值的User对象，在后期的密码比对过程中一样会验证失败
             return new User();
         }
-        //查询用户的角色信息，并返回存入user中
+        // 查询用户的角色信息，并返回存入user中
         List<Role> roles = rolesUserMapper.getRolesByUid(user.getId());
         user.setRoles(roles);
         return user;
     }
 
     /**
-     * @Description 注册 1表示用户名重复 2表示失败
-     * @Author sy
-     * @Date 19:29 2021/7/4
-     * @Param [user]
+     * @Description 注册 1表示用户名重复 2表示失败 @Author sy @Date 19:29 2021/7/4 @Param [user]
+     *
      * @return int
      */
     public int register(User user) {
@@ -67,7 +62,7 @@ public class UserService implements UserDetailsService {
         long result = userMapper.register(user);
 
         // 配置用户角色，默认普通用户
-        String[] roles = new String[]{"2"};
+        String[] roles = new String[] {"2"};
         int addRolesNum = rolesUserMapper.addRoles(roles, user.getId());
 
         boolean regResult = addRolesNum == roles.length && result == 1;
@@ -106,5 +101,4 @@ public class UserService implements UserDetailsService {
         int i = userMapper.deleteUserRolesByUid(id);
         return userMapper.setUserRoles(rids, id);
     }
-
 }

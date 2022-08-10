@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sy.fiar.bean.Category;
-import org.sy.fiar.mapper.CategoryMapper;
+import org.sy.fiar.dao.CategoryMapper;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -19,8 +19,7 @@ import java.util.List;
 @Transactional
 public class CategoryService {
 
-    @Autowired
-    CategoryMapper categoryMapper;
+    @Autowired CategoryMapper categoryMapper;
 
     public List<Category> getAllCategories() {
         return categoryMapper.getAllCategories();
@@ -40,5 +39,4 @@ public class CategoryService {
         category.setDate(new Timestamp(System.currentTimeMillis()));
         return categoryMapper.addCategory(category);
     }
-
 }

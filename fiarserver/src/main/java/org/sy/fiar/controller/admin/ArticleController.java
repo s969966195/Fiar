@@ -1,4 +1,4 @@
-package org.sy.fiar.controller;
+package org.sy.fiar.controller.admin;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,7 @@ public class ArticleController {
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
-    @Autowired
-    ArticleService articleService;
+    @Autowired ArticleService articleService;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public RespBean addNewArticle(Article article) {
@@ -58,13 +57,16 @@ public class ArticleController {
             }
         }
         url.append(req.getScheme())
-            .append("://")
-            .append(req.getServerName())
-            .append(":")
-            .append(req.getServerPort())
-            .append(req.getContextPath())
-            .append(filePath);
-        String imgName = UUID.randomUUID() + "_" + Objects.requireNonNull(image.getOriginalFilename()).replaceAll(" ", "");
+                .append("://")
+                .append(req.getServerName())
+                .append(":")
+                .append(req.getServerPort())
+                .append(req.getContextPath())
+                .append(filePath);
+        String imgName =
+                UUID.randomUUID()
+                        + "_"
+                        + Objects.requireNonNull(image.getOriginalFilename()).replaceAll(" ", "");
         try {
             IOUtils.write(image.getBytes(), new FileOutputStream(new File(imgFolder, imgName)));
             url.append("/").append(imgName);
@@ -76,9 +78,15 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public Map<String, Object> getArticleByState(@RequestParam(value = "state", defaultValue = "-1") Integer state, @RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "count", defaultValue = "6") Integer count, String keywords) {
-        int totalCount = articleService.getArticleCountByState(state, ContextUtil.getCurrentUser().getId(),keywords);
-        List<Article> articles = articleService.getArticleByState(state, page, count,keywords);
+    public Map<String, Object> getArticleByState(
+            @RequestParam(value = "state", defaultValue = "-1") Integer state,
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "count", defaultValue = "6") Integer count,
+            String keywords) {
+        int totalCount =
+                articleService.getArticleCountByState(
+                        state, ContextUtil.getCurrentUser().getId(), keywords);
+        List<Article> articles = articleService.getArticleByState(state, page, count, keywords);
         Map<String, Object> map = new HashMap<>();
         map.put("totalCount", totalCount);
         map.put("articles", articles);
@@ -107,7 +115,7 @@ public class ArticleController {
     }
 
     @RequestMapping("/dataStatistics")
-    public Map<String,Object> dataStatistics() {
+    public Map<String, Object> dataStatistics() {
         Map<String, Object> map = new HashMap<>();
         List<String> categories = articleService.getCategories();
         List<Integer> dataStatistics = articleService.getDataStatistics();
@@ -115,5 +123,4 @@ public class ArticleController {
         map.put("ds", dataStatistics);
         return map;
     }
-
 }

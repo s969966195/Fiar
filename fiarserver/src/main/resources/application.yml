@@ -1,0 +1,99 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/fiar?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: root
+      #初始化连接数
+      initial-size: 10
+      #最大连接数
+      max-active: 20
+      #最小连接数
+      min-idle: 10
+      #尝试连接时间
+      max-wait: 10000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      asyncInit: true
+      min-evictable-idle-time-millis: 300000
+      #追踪连接池泄露回收日志
+      log-abandoned: false
+      #回收时间
+      remove-abandoned-timeout: 60000
+      #移除连接
+      remove-abandoned: true
+      #移除超时时间
+      remove-abandoned-timeout-millis: 6000
+      # 启用非公平锁 开启max-wait时默认为公平锁，并发效率会有所下降
+      use-unfair-lock: true
+      #重试次数
+      connection-error-retry-attempts: 3
+      #校验sql 在开启校验检测的时候必填
+      validation-query: SELECT 1
+      #查询校验
+      test-on-borrow: false
+      #返回校验
+      test-on-return: false
+      #运行
+      test-while-idle: true
+      #检测连接间隔
+      time-between-eviction-runs-millis: 6000
+      #开启拦截器项目
+      filters: wall,stat,slf4j
+      filter:
+        #sql监测
+        stat:
+          enabled: true
+          #sql合并
+          merge-sql: true
+          slow-sql-millis: 1
+        logback:
+          #日志记录
+          enabled: true
+        wall:
+          #防火墙配置
+          enabled: true
+          config:
+            multi-statement-allow: true
+            #禁止select * 语句
+            select-all-column-allow: false
+          #对被认为是攻击的SQL进行LOG.error输出
+          log-violation: true
+          #对sql注入进行异常抛出
+          throw-exception: true
+      # 考虑采用mybatis-plus的监控插件，或者自定义一个Filter 默认日志打印数量有点大
+      #        slf4j:
+      #          enabled: false
+      #          statement-create-after-log-enabled: false
+      #          statement-close-after-log-enabled: false
+      #          result-set-open-after-log-enabled: false
+      #          result-set-close-after-log-enabled: false
+      #      合并集群druid监控
+      use-global-data-source-stat: true
+
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/dao/*.xml
+  type-aliases-package: org.sy.fiar.bean
+  # configuration:
+  #   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+server:
+  port: 8081
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: info
+
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

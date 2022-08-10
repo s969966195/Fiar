@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.sy.fiar.mapper.RolesUserMapper">
+<mapper namespace="org.sy.fiar.dao.RolesUserMapper">
 
     <insert id="addRoles">
         INSERT INTO roles_user VALUES

@@ -18,14 +18,11 @@ import org.sy.fiar.service.UserService;
 @RestController
 public class LoginController {
 
-    @Autowired
-    UserService userService;
+    @Autowired UserService userService;
 
     /**
-     * @Description 用户注册
-     * @Author sy
-     * @Date 20:32 2021/7/4
-     * @Param [user]
+     * @Description 用户注册 @Author sy @Date 20:32 2021/7/4 @Param [user]
+     *
      * @return org.sy.fiar.bean.RespBean
      */
     @PostMapping("/register")
@@ -41,10 +38,8 @@ public class LoginController {
     }
 
     /**
-     * @Description 未登录
-     * @Author sy
-     * @Date 20:34 2021/7/4
-     * @Param []
+     * @Description 未登录 @Author sy @Date 20:34 2021/7/4 @Param []
+     *
      * @return org.sy.fiar.bean.RespBean
      */
     @RequestMapping("/login_page")
@@ -53,10 +48,8 @@ public class LoginController {
     }
 
     /**
-     * @Description 登录成功
-     * @Author sy
-     * @Date 20:37 2021/7/4
-     * @Param []
+     * @Description 登录成功 @Author sy @Date 20:37 2021/7/4 @Param []
+     *
      * @return org.sy.fiar.bean.RespBean
      */
     @RequestMapping("/login_success")
@@ -65,15 +58,12 @@ public class LoginController {
     }
 
     /**
-     * @Description 登录失败
-     * @Author sy
-     * @Date 21:51 2021/7/5
-     * @Param []
+     * @Description 登录失败 @Author sy @Date 21:51 2021/7/5 @Param []
+     *
      * @return org.sy.fiar.bean.RespBean
      */
     @RequestMapping("login_error")
     public RespBean loginError() {
         return new RespBean("error", "登录失败！");
     }
-
 }

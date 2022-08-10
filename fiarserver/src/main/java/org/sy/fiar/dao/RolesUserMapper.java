@@ -1,4 +1,4 @@
-package org.sy.fiar.mapper;
+package org.sy.fiar.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.sy.fiar.bean.Role;
