@@ -12,7 +12,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.sy.fiar.service.UserService;
+import org.sy.fiar.service.impl.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

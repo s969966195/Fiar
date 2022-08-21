@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.sy.fiar.bean.Article;
 import org.sy.fiar.bean.RespBean;
 import org.sy.fiar.pub.utils.ContextUtil;
-import org.sy.fiar.service.ArticleService;
+import org.sy.fiar.service.impl.ArticleService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;

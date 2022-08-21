@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2021/7/7 19:55
  */
 @Data
-public class Tags {
+public class Tag {
 
     private Long id;
 

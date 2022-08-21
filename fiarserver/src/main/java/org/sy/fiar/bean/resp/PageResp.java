@@ -2,8 +2,10 @@ package org.sy.fiar.bean.resp;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * description
+ * 响应体
  *
  * @author SY
  * @since 2022/8/10 22:41
@@ -18,8 +20,11 @@ public class PageResp {
     private int pageSize;
 
     /** 总条数 */
-    private int totalSize;
+    private long totalSize;
 
     /** 总页数 */
     private int totalPages;
+
+    /** 返回数据 */
+    private List<?> result;
 }

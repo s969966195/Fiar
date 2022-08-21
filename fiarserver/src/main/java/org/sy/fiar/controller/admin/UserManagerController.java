@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.sy.fiar.bean.RespBean;
 import org.sy.fiar.bean.Role;
 import org.sy.fiar.bean.User;
-import org.sy.fiar.service.UserService;
+import org.sy.fiar.service.impl.UserService;
 
 import java.util.List;
 

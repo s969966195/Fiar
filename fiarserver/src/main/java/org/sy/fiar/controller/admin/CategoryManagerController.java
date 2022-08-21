@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.sy.fiar.bean.Category;
 import org.sy.fiar.bean.RespBean;
-import org.sy.fiar.service.CategoryService;
+import org.sy.fiar.pub.annotation.OperationLogSys;
+import org.sy.fiar.pub.annotation.OperationType;
+import org.sy.fiar.service.admin.CategoryManagerService;
 
 import java.util.List;
 
@@ -19,18 +21,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/category")
-public class CategoryController {
+public class CategoryManagerController {
 
-    @Autowired CategoryService categoryService;
+    @Autowired CategoryManagerService categoryManagerService;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public List<Category> getAllCategories() {
-        return categoryService.getAllCategories();
+        return categoryManagerService.getAllCategories();
     }
 
     @RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
     public RespBean deleteById(@PathVariable String ids) {
-        boolean result = categoryService.deleteCategoryByIds(ids);
+        boolean result = categoryManagerService.deleteCategoryByIds(ids);
         if (result) {
             return new RespBean("success", "删除成功!");
         }
@@ -38,13 +40,14 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
+    @OperationLogSys(desc = "添加分类", operationType = OperationType.INSERT)
     public RespBean addNewCate(Category category) {
 
         if ("".equals(category.getCateName()) || category.getCateName() == null) {
             return new RespBean("error", "请输入栏目名称!");
         }
 
-        int result = categoryService.addCategory(category);
+        int result = categoryManagerService.addCategory(category);
 
         if (result == 1) {
             return new RespBean("success", "添加成功!");
@@ -54,7 +57,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public RespBean updateCate(Category category) {
-        int i = categoryService.updateCategoryById(category);
+        int i = categoryManagerService.updateCategoryById(category);
         if (i == 1) {
             return new RespBean("success", "修改成功!");
         }

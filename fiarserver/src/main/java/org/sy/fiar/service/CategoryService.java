@@ -1,42 +1,53 @@
 package org.sy.fiar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.sy.fiar.bean.Category;
-import org.sy.fiar.dao.CategoryMapper;
+import org.sy.fiar.bean.req.PageReq;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * description
+ * 分类
  *
  * @author SY
- * @since 2021/7/7 23:26
+ * @since 2022/8/10 23:01
  */
-@Service
-@Transactional
-public class CategoryService {
+public interface CategoryService {
 
-    @Autowired CategoryMapper categoryMapper;
+    /**
+     * 获取所有的分类（分页）
+     *
+     * @return list
+     */
+    List<Category> getCategoryPage(PageReq pageReq);
 
-    public List<Category> getAllCategories() {
-        return categoryMapper.getAllCategories();
-    }
+    /**
+     * 新建分类
+     *
+     * @param category categoryId
+     * @return int
+     */
+    int saveCategory(Category category);
 
-    public boolean deleteCategoryByIds(String ids) {
-        String[] split = ids.split(",");
-        int result = categoryMapper.deleteCategoryByIds(split);
-        return result == split.length;
-    }
+    /**
+     * 修改分类
+     *
+     * @param category categoryId
+     * @return int
+     */
+    int updateCategory(Category category);
 
-    public int updateCategoryById(Category category) {
-        return categoryMapper.updateCategoryById(category);
-    }
+    /**
+     * 删除分类
+     *
+     * @param categoryIds categoryIds
+     */
+    void deleteCategory(List<String> categoryIds);
 
-    public int addCategory(Category category) {
-        category.setDate(new Timestamp(System.currentTimeMillis()));
-        return categoryMapper.addCategory(category);
-    }
+    /**
+     * 根据分类id查找分类
+     *
+     * @param categoryId categoryId
+     * @return Category
+     */
+    Category findCategoryById(String categoryId);
 }

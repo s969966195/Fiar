@@ -1,13 +1,24 @@
 package org.sy.fiar.controller;
 
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.sy.fiar.bean.LoginLog;
 import org.sy.fiar.bean.RespBean;
 import org.sy.fiar.bean.User;
 import org.sy.fiar.pub.constants.UserConstant;
-import org.sy.fiar.service.UserService;
+import org.sy.fiar.pub.utils.IpUtil;
+import org.sy.fiar.pub.utils.ServletUtil;
+import org.sy.fiar.service.LoginLogService;
+import org.sy.fiar.service.impl.UserService;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * 登录&&注册Controller
@@ -19,6 +30,8 @@ import org.sy.fiar.service.UserService;
 public class LoginController {
 
     @Autowired UserService userService;
+
+    @Resource private LoginLogService loginLogService;
 
     /**
      * @Description 用户注册 @Author sy @Date 20:32 2021/7/4 @Param [user]
@@ -65,5 +78,38 @@ public class LoginController {
     @RequestMapping("login_error")
     public RespBean loginError() {
         return new RespBean("error", "登录失败！");
+    }
+
+    // TODO 登录日志操作添加
+    /** 获取登录日志 */
+    public void getLoginInfoLog(User user, Integer status) {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request =
+                (HttpServletRequest)
+                        Objects.requireNonNull(requestAttributes)
+                                .resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        // 解析agent字符串
+        UserAgent userAgent =
+                UserAgent.parseUserAgentString(ServletUtil.getRequest().getHeader("User-Agent"));
+
+        // 登录账号
+        LoginLog loginLog = new LoginLog();
+        loginLog.setLoginName(user.getUsername());
+
+        // 登录IP地址
+        String ipAddr = IpUtil.getIpAddr(request);
+        loginLog.setIpAddress(ipAddr);
+        // 登录地点
+        String ipInfo = IpUtil.getIpInfo(ipAddr);
+        loginLog.setLoginLocation(ipInfo);
+        // 浏览器类型
+        String browser = userAgent.getBrowser().getName();
+        loginLog.setBrowserType(browser);
+        // 操作系统
+        String os = userAgent.getOperatingSystem().getName();
+        loginLog.setOs(os);
+        // 登录状态
+        loginLog.setLoginStatus(status);
+        loginLogService.saveOperationLog(loginLog);
     }
 }

@@ -15,10 +15,17 @@ public interface CategoryMapper {
 
     List<Category> getAllCategories();
 
-    int deleteCategoryByIds(@Param("ids") String[] ids);
+    int deleteCategoryByIds(@Param("ids") List<String> ids);
 
     int updateCategoryById(Category category);
 
     int addCategory(Category category);
 
+    /**
+     * 根据id查找分类
+     *
+     * @param id id
+     * @return Category
+     */
+    Category getCategoryById(String id);
 }

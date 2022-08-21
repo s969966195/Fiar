@@ -3,7 +3,7 @@ package org.sy.fiar.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.sy.fiar.service.ArticleService;
+import org.sy.fiar.service.impl.ArticleService;
 
 /**
  * 数据统计定时任务

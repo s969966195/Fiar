@@ -42,7 +42,7 @@ public class Article {
 
     private String cateName;
 
-    private List<Tags> tags;
+    private List<Tag> tags;
 
     private String stateStr;
 }

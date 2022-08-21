@@ -13,10 +13,17 @@ import java.util.List;
  */
 public interface ArticleMapper {
 
-    List<Article> getArticleByState(@Param("state") Integer state, @Param("start") Integer start, @Param("count") Integer count,
-        @Param("uid") Long uid, @Param("keywords") String keywords);
+    List<Article> getArticleByState(
+            @Param("state") Integer state,
+            @Param("start") Integer start,
+            @Param("count") Integer count,
+            @Param("uid") Long uid,
+            @Param("keywords") String keywords);
 
-    int getArticleCountByState(@Param("state") Integer state, @Param("uid") Long uid, @Param("keywords") String keywords);
+    int getArticleCountByState(
+            @Param("state") Integer state,
+            @Param("uid") Long uid,
+            @Param("keywords") String keywords);
 
     int deleteArticleById(@Param("aids") Long[] aids);
 
@@ -30,12 +37,12 @@ public interface ArticleMapper {
 
     void pvIncrement(Long aid);
 
-    int updateArticleStateById(@Param("articleId") Integer articleId, @Param("state") Integer state);
+    int updateArticleStateById(
+            @Param("articleId") Integer articleId, @Param("state") Integer state);
 
     List<String> getCategories(Long uid);
 
     List<Integer> getDataStatistics(Long uid);
 
     void pvStatisticsPerDay();
-
 }

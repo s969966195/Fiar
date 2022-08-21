@@ -3,7 +3,7 @@
 <mapper namespace="org.sy.fiar.dao.RolesUserMapper">
 
     <insert id="addRoles">
-        INSERT INTO roles_user VALUES
+        INSERT INTO t_fiar_roles_user VALUES
         <foreach collection="roles" item="role" separator=",">
             (null, #{role}, #{uid})
         </foreach>
@@ -11,8 +11,10 @@
 
     <select id="getRolesByUid" parameterType="long" resultType="org.sy.fiar.bean.Role">
         SELECT r.*
-        FROM roles r, roles_user ru
-        WHERE r.`id` = ru.`id` AND ru.`uid` = #{uid}
+        FROM t_fiar_roles r,
+             t_fiar_roles_user ru
+        WHERE r.`id` = ru.`id`
+          AND ru.`uid` = #{uid}
     </select>
 
 </mapper>

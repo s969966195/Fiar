@@ -4,21 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.sy.fiar.dao.CategoryMapper">
     <select id="getAllCategories" resultType="org.sy.fiar.bean.Category">
-        SELECT * FROM category
+        SELECT *
+        FROM category
     </select>
 
     <delete id="deleteCategoryByIds">
-        DELETE FROM category WHERE id IN
+        DELETE FROM t_fiar_category WHERE id IN
         <foreach collection="ids" separator="," open="(" close=")" item="id">
             #{id}
         </foreach>
     </delete>
 
     <update id="updateCategoryById" parameterType="org.sy.fiar.bean.Category">
-        UPDATE category SET cateName=#{cateName} WHERE id=#{id}
+        UPDATE t_fiar_category
+        SET cateName=#{cateName}
+        WHERE id = #{id}
     </update>
 
     <insert id="addCategory" parameterType="org.sy.fiar.bean.Category">
-        INSERT INTO category SET date=#{date},cateName=#{cateName}
+        INSERT INTO t_fiar_category
+        SET date=#{date},
+            cateName=#{cateName}
     </insert>
 </mapper>

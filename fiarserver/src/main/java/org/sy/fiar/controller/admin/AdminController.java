@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.sy.fiar.bean.Article;
 import org.sy.fiar.bean.RespBean;
-import org.sy.fiar.service.ArticleService;
+import org.sy.fiar.service.impl.ArticleService;
 
 import java.util.HashMap;
 import java.util.List;
