@@ -41,7 +41,7 @@ public class OperationLogController {
      * @return BaseResp
      */
     @ApiOperation(value = "操作日志列表")
-    @PostMapping("list")
+    @PostMapping("/operation/list")
     public BaseResp<Object> OperationLogListPage(@RequestBody @Valid PageReq pageReq) {
         List<OperationLog> operationLogPage = operationLogService.getOperationLogPage(pageReq);
         PageInfo pageInfo = new PageInfo(operationLogPage);
@@ -56,7 +56,7 @@ public class OperationLogController {
      * @return BaseResp
      */
     @ApiOperation(value = "登录日志列表")
-    @PostMapping("list")
+    @PostMapping("/login/list")
     public BaseResp<Object> LoginOperationLogListPage(@RequestBody @Valid PageReq pageReq) {
         List<LoginLog> loginOperationLogPage = loginLogService.getLoginOperationLogPage(pageReq);
         PageInfo pageInfo = new PageInfo(loginOperationLogPage);
