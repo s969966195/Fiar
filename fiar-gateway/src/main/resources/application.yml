@@ -1,0 +1,49 @@
+server:
+  port=8080
+
+  # 注册中心使用
+spring:
+  application:
+    name: fiar-gateway
+
+  cloud:
+    nacos:
+      discovery:
+        # 注册中心地址
+        server-addr: 127.0.0.1:8848
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+    # 路由配置
+    gateway:
+      routes:
+          # 系统模块
+        - id: fiar-system
+          # ws://localhost:9090/ websocket配置方式
+          # http://localhost:9090/
+          # lb://服务名 注册中心配置方式
+          uri: lb://fiar-system
+          # After=2023-04-05T14:20:00.000+08:00[Asia/Shanghai] xx时间后才能使用
+          # Path=/system/** 路径替换system
+          # Cookie=loginname, 匹配cookie
+          # Header=X-Request-Id, \d+ 匹配请求头
+          # Host=**.somehost.org,**.anotherhost.org 匹配主机名的列表
+          # Method=GET,POST
+          # Query=username, abc. 匹配查询参数
+          # RemoteAddr=192.168.10.1/0 匹配IP地址和子网掩码
+          # Weight=group1, 2 匹配权重
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+            # 限流配置
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # 令牌桶每秒填充速率
+                redis-rate-limiter.burstCapacity: 2 # 令牌桶总容量
+                key-resolver: "#{@pathKeyResolver}" # 使用 SpEL 表达式按名称引用 bean，与代码中一致

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sy.fiar.dao.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="org.sy.fiar.bean.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="cid" property="cid"/>
+        <result column="uid" property="uid"/>
+        <result column="publishDate" property="publishDate"/>
+        <result column="editTime" property="editTime"/>
+        <result column="state" property="state"/>
+        <result column="pageView" property="pageView"/>
+        <result column="mdContent" property="mdContent"/>
+        <result column="htmlContent" property="htmlContent"/>
+        <result column="summary" property="summary"/>
+        <result column="nickname" property="nickname"/>
+        <result column="cateName" property="cateName"/>
+        <collection property="tags" ofType="org.sy.fiar.bean.Tag" column="tagName">
+            <id property="id" column="tid"/>
+            <result property="tagName" column="tagName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getArticleByState" resultType="org.sy.fiar.bean.Article">
+        SELECT a.id,a.`title`,a.`editTime`,a.`pageView`,a.`state`,u.`nickname`,c.`cateName`,a.uid FROM t_fiar_article a,
+        t_fiar_user
+        u, t_fiar_category c WHERE a.`cid`=c.`id` AND a.`uid`=u.`id`
+        <if test="state!=-2">
+            AND a.uid=#{uid}
+        </if>
+        <if test="state!=-1 and state!=-2">
+            AND a.state=#{state}
+        </if>
+        <if test="state==-2">
+            AND a.state=1
+        </if>
+        <if test="keywords!=null">
+            AND title LIKE concat('%',#{keywords},'%')
+        </if>
+        ORDER BY a.editTime DESC limit #{start},#{count};
+    </select>
+
+    <select id="getArticleCountByState" resultType="int">
+        SELECT count(*) FROM t_fiar_article
+        <where>
+            <if test="state!=-1">
+                AND state=#{state}
+            </if>
+            <if test="uid!=null">
+                AND uid=#{uid}
+            </if>
+            <if test="keywords!=null">
+                AND title LIKE concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteArticleById">
+        DELETE FROM t_fiar_article WHERE id IN
+        <foreach collection="aids" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+
+    <update id="updateArticleState">
+        UPDATE t_fiar_article SET state=#{state} WHERE id IN
+        <foreach collection="aids" item="aid" separator="," open="(" close=")">
+            #{aid}
+        </foreach>
+    </update>
+
+    <select id="getAllRole" resultType="org.sy.fiar.bean.Role">
+        SELECT *
+        FROM t_fiar_roles;
+    </select>
+
+    <insert id="addNewArticle" parameterType="org.sy.fiar.bean.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_fiar_article
+        SET title=#{title},
+        mdContent=#{mdContent},
+        htmlContent=#{htmlContent},
+        summary=#{summary},
+        cid=#{cid},
+        uid=#{uid},
+        publishDate=#{publishDate},
+        state=#{state},
+        editTime=#{editTime}
+    </insert>
+
+    <update id="updateArticle" parameterType="org.sy.fiar.bean.Article">
+        UPDATE t_fiar_article SET
+        title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},editTime=#{editTime}
+        <if test="state==1">
+            ,state=1
+        </if>
+        <if test="publishDate!=null">
+            ,publishDate=#{publishDate}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getArticleById" parameterType="Long" resultMap="BaseResultMap">
+        SELECT a.*,
+        t.`tagName`,
+        t.`id`
+        AS tid,
+        u.`nickname`,
+        c.`cateName`
+        FROM t_fiar_article a
+        LEFT JOIN t_fiar_article_tags ats ON a.`id` = ats.`aid`
+        LEFT JOIN t_fiar_tags t ON ats.`tid` = t.`id`
+        LEFT JOIN t_fiar_user u ON a.`uid` = u.`id`
+        LEFT JOIN t_fiar_category c ON a.`cid` = c.`id`
+        WHERE a.id = #{aid}
+    </select>
+
+    <update id="pvIncrement" parameterType="Long">
+        UPDATE t_fiar_article
+        set pageView=pageView + 1
+        WHERE id = #{aid}
+    </update>
+
+    <update id="updateArticleStateById">
+        UPDATE t_fiar_article
+        SET state=#{state}
+        WHERE id = #{articleId}
+    </update>
+
+    <select id="getCategories" resultType="String" parameterType="long">
+        SELECT countDate
+        FROM t_fiar_pv
+        WHERE uid = #{uid}
+        ORDER BY countDate
+        limit 7
+    </select>
+
+    <select parameterType="long" id="getDataStatistics" resultType="int">
+        SELECT pv
+        FROM t_fiar_pv
+        WHERE uid = #{uid}
+        ORDER BY countDate
+        limit 7
+    </select>
+
+    <insert id="pvStatisticsPerDay">
+        INSERT INTO pv(countDate, pv, uid)
+        SELECT CURRENT_DATE(), totalPv - pv, t.`uid`
+        FROM t_fiar_pvview p,
+        t_fiar_totalpvview t
+        WHERE p.`uid` = t.`uid`
+    </insert>
+
+</mapper>
